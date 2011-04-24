@@ -31,12 +31,16 @@
 - (void)requestFinished:(ASIHTTPRequest *)request {
     
     self.image = [UIImage imageWithData:[request responseData]];
-        
+
+    [request setDelegate:nil];    
+    [request cancel];
     [request release];
     request = nil;
 }
 
 - (void) requestFailed:(ASIHTTPRequest *)request {
+    [request setDelegate:nil];    
+    [request cancel];
     [request release];
     request = nil;
 }

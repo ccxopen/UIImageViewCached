@@ -18,6 +18,10 @@ I have tested the example app in Xcode 4 and iOS 4.3.1.
 
 ## Change log
 
+### April 24, 2011
+
+* A change in release behavior to possibly reduce crashes. See http://stackoverflow.com/questions/3870314/asihttprequest-problem.
+
 ### April 10, 2011
 
 * Initial release.
