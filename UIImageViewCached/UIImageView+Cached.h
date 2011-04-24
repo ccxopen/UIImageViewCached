@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASIHTTPRequestDelegate.h"
 
-@interface UIImageView (Cached) <ASIHTTPRequestDelegate>
+@interface UIImageView (Cached)
 
 // Call this method to load an image from network. The load fails back to local cache if network is not available
 // or the image does not need to be refreshed, as determined by response headers.

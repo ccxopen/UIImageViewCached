@@ -14,13 +14,14 @@ Have a regular UIImageView anywhere in your app. Bundle the image that you consi
 
 That’s it. Just one method.
 
-I have tested the example app in Xcode 4 and iOS 4.3.1.
+I have tested the example app in Xcode 4 and iOS 4.3.1. It requires iOS 4 due to Grand Central Dispatch being used.
 
 ## Change log
 
 ### April 24, 2011
 
 * A change in release behavior to possibly reduce crashes. See http://stackoverflow.com/questions/3870314/asihttprequest-problem.
+* … but the whole thing was still crashing even after fiddling with the delegates. So, rewrote the whole thing instead to use Grand Central Dispatch and no delegates. GCD seems much more stable and less crash-prone in my quick tests.
 
 ### April 10, 2011
 

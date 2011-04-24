@@ -14,35 +14,22 @@
 
 - (void) loadImageFromUrl:(NSURL *)url {
     
-    ASIHTTPRequest *request = [[ASIHTTPRequest alloc] initWithURL:url];
-    request.delegate = self;
-    
-    [request setDownloadCache:[ASIDownloadCache sharedCache]];
-    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
-    [request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy|ASIFallbackToCacheIfLoadFailsCachePolicy];
-    
-    [request startAsynchronous];
-    
-}
-
-#pragma mark -
-#pragma mark ASIHTTPRequestDelegate
-
-- (void)requestFinished:(ASIHTTPRequest *)request {
-    
-    self.image = [UIImage imageWithData:[request responseData]];
-
-    [request setDelegate:nil];    
-    [request cancel];
-    [request release];
-    request = nil;
-}
-
-- (void) requestFailed:(ASIHTTPRequest *)request {
-    [request setDelegate:nil];    
-    [request cancel];
-    [request release];
-    request = nil;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+        
+        [request setDownloadCache:[ASIDownloadCache sharedCache]];
+        [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+        [request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy|ASIFallbackToCacheIfLoadFailsCachePolicy];
+        
+        [request startSynchronous];
+        NSError *error = [request error];
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.image = [UIImage imageWithData:[request responseData]];
+            });
+        }
+    });
 }
 
 @end
